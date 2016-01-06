@@ -42,11 +42,25 @@ public class BaseBehaviour : MonoBehaviour
         startedSecondThread = true;
     }
 
+
+
     protected void OnDestroy()
     {
         if (!Application.isPlaying)
             return;
 
+        ScriptManager.unregisterScriptMainThread(this);
+        if (startedSecondThread)
+            ScriptManager.unregisterScriptSecondaryThread(this);
+    }
+
+    virtual protected void OnEnable()
+    {
+        startMainThreadUpdate();
+    }
+
+    virtual protected void OnDisable()
+    {
         ScriptManager.unregisterScriptMainThread(this);
         if (startedSecondThread)
             ScriptManager.unregisterScriptSecondaryThread(this);

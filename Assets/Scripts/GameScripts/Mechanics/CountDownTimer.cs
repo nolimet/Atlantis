@@ -20,7 +20,11 @@ namespace game.mechanics
         protected override void Start()
         {
             counter = System.DateTime.Now;
-            startMainThreadUpdate();
+        }
+
+        protected override void OnEnable()
+        {
+            base.OnEnable();
             StartSecondThreadUpdate();
         }
 
