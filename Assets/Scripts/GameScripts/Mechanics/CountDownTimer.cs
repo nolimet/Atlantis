@@ -5,6 +5,9 @@ namespace game.mechanics
 {
     public class CountDownTimer : BaseBehaviour
     {
+        public event ValueClasses.VoidDelegate onTimerDone;
+
+
         [Tooltip("in seconds")]
         public int timerLenght;
         System.DateTime counter;
@@ -12,6 +15,7 @@ namespace game.mechanics
         public Text visualDisplay;
 
         bool timerDone;
+        bool firedEvent;
 
         protected override void Start()
         {
@@ -23,6 +27,12 @@ namespace game.mechanics
         public override void MainUpdate()
         {
             visualDisplay.text = formatCounter();
+            if(timerDone&& !firedEvent)
+            {
+                firedEvent = true;
+                if (onTimerDone != null)
+                    onTimerDone();
+            }
         }
 
         public override void SecondaryThreadUpdate()
