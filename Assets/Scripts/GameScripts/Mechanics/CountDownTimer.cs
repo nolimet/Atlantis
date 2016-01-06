@@ -37,14 +37,16 @@ namespace game.mechanics
 
         public override void SecondaryThreadUpdate()
         {
-            if ((System.DateTime.Now - counter).TotalSeconds > timerLenght)
+            if (((System.DateTime.Now - counter) - ScriptManager.PausedTime).TotalSeconds > timerLenght) 
                 timerDone = true;
         }
 
         System.TimeSpan tm;
+        int mili;
         string formatCounter()
         {
-            tm = (new System.TimeSpan(0, 0, timerLenght) - (System.DateTime.Now - counter));
+            tm = (new System.TimeSpan(0, 0, timerLenght) - (System.DateTime.Now - counter) - ScriptManager.PausedTime);
+
             string output = "";
             if (tm.Hours > 0)
             {
@@ -63,6 +65,8 @@ namespace game.mechanics
                 output += tm.Minutes;
                 output += " : ";
             }
+            else
+                output += "00 : ";
 
             if (tm.Seconds > 0)
             {
@@ -70,8 +74,21 @@ namespace game.mechanics
                     output += "0";
 
                 output += tm.Seconds;
+                output += " : ";
             }
+            else
+                output += "00 : ";
 
+            if(tm.Milliseconds > 0)
+            {
+                mili = tm.Milliseconds;
+                mili /= 10;
+                if (mili < 10)
+                    output += "0";
+
+                output += mili;
+
+            }
 
             return output;
         }

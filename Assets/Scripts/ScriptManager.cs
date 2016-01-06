@@ -5,9 +5,10 @@ using System.Threading;
 
 public class ScriptManager : MonoBehaviour
 {
-
+    [SerializeField]
     protected List<BaseBehaviour> MainThreadScripts;
 
+    [SerializeField]
     protected List<BaseBehaviour> SecondThreadScripts;
     private Thread secondaryThread;
 
@@ -37,7 +38,7 @@ public class ScriptManager : MonoBehaviour
     }
     private static ScriptManager _instance;
 
-    private bool _gamePaused = false;
+    private volatile bool _gamePaused = false;
     public static bool gamePaused
     {
         get
@@ -51,7 +52,8 @@ public class ScriptManager : MonoBehaviour
         }
     }
 
-    private static bool isPlaying = true;
+    private volatile static bool isPlaying = true;
+    public static System.TimeSpan PausedTime;
 
     #region Static Functions
     /// <summary>
@@ -110,6 +112,8 @@ public class ScriptManager : MonoBehaviour
 
         MainThreadScripts = new List<BaseBehaviour>();
         SecondThreadScripts = new List<BaseBehaviour>();
+        PausedTime = new System.TimeSpan();
+
         DontDestroyOnLoad(this);
         _instance = this;
 
@@ -135,15 +139,19 @@ public class ScriptManager : MonoBehaviour
     /// </summary>
     void Update()
     {
-        if (gamePaused)
-            return;
-        l = MainThreadScripts.Count;
-        for (i = 0; i < l; i++)
+        if (!gamePaused)
         {
-            if (MainThreadScripts[i].enabled)
-                MainThreadScripts[i].MainUpdate();
+            l = MainThreadScripts.Count;
+            for (i = 0; i < l; i++)
+            {
+                if (MainThreadScripts[i].enabled)
+                    MainThreadScripts[i].MainUpdate();
+            }
         }
-
+        else
+        {
+            PausedTime.Add(new System.TimeSpan(0, 0, 0, 0, Mathf.FloorToInt(Time.deltaTime * 1000)));
+        }
         //if (secondaryThread.ThreadState != ThreadState.Running )
         //    secondaryThread.Start();
     }
