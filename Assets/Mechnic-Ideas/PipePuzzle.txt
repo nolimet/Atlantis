@@ -1,0 +1,18 @@
+Pipes are a grid.
+each pip can be rotated in 4 directions
+each has at least two sides
+the active sides are diffined in a struct that has 4 bools up,down,left,right. Struct also contains a enum called rotation(0,1,2,3).
+
+pip rotation 0 is default position.
+
+
+in pip rot 0 up is open
+in pip rot 1 left is open
+in pip rot 2 down is open
+in pip rot 3 right is open
+
+rotating once more causes up to be open again.
+
+how to logicaly figure this out
+
+
