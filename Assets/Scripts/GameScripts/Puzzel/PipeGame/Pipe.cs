@@ -8,6 +8,10 @@ namespace minigame.PipePuzzel
         [SerializeField]
         pipeStruct pipeData;
 
+        public event ValueClasses.VoidDelegate onPipeGridChanged;
+
+        public bool emptyPipe = true;
+
         protected override void Start()
         {
             base.Start();
@@ -16,6 +20,16 @@ namespace minigame.PipePuzzel
 
         public void OnClick()
         {
+            if (onPipeGridChanged != null)
+                onPipeGridChanged();
+
+            if(emptyPipe)
+            {
+                //todo add handler for empty pipe points
+                return;
+            }
+
+
             switch (pipeData.rotation)
             {
                 case PipeRotation.up:

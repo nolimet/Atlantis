@@ -16,7 +16,7 @@ public class BaseBehaviour : MonoBehaviour
 
     protected virtual void Start()
     {
-        startMainThreadUpdate();
+        StartMainThreadUpdate();
     }
 
     protected void CalcDeltaTimeMain()
@@ -31,7 +31,7 @@ public class BaseBehaviour : MonoBehaviour
         t2 = System.DateTime.Now;
     }
 
-    protected void startMainThreadUpdate()
+    protected void StartMainThreadUpdate()
     {
         ScriptManager.registerScriptMainThread(this);
     }
@@ -56,7 +56,7 @@ public class BaseBehaviour : MonoBehaviour
 
     virtual protected void OnEnable()
     {
-        startMainThreadUpdate();
+        StartMainThreadUpdate();
     }
 
     virtual protected void OnDisable()
@@ -68,17 +68,13 @@ public class BaseBehaviour : MonoBehaviour
 
     /// <summary>
     /// runs in the main thread of unity
+    /// should be used for allthings rendering
     /// </summary>
-    public virtual void MainUpdate()
-    {
-
-    }
+    public virtual void MainUpdate() { }
 
     /// <summary>
     /// runs in a self managed thread so out side the main thread of unity
+    /// Can be used for things like pathfinding
     /// </summary>
-    public virtual void SecondaryThreadUpdate()
-    {
-
-    }
+    public virtual void SecondaryThreadUpdate() { }
 }

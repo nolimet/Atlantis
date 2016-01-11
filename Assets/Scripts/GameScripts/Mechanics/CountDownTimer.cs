@@ -83,7 +83,7 @@ namespace game.mechanics
             else
                 output += "00 : ";
 
-            if(tm.Milliseconds > 0)
+            if (tm.Milliseconds > 0)
             {
                 mili = tm.Milliseconds;
                 mili /= 10;
@@ -93,6 +93,8 @@ namespace game.mechanics
                 output += mili;
 
             }
+            else
+                output += "00";
 
             return output;
         }
