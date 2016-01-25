@@ -25,17 +25,66 @@ namespace minigame.PipePuzzel
         List<Vector2> pathFindingPoints;
         List<Pipe> PipesInPath;
 
-        public int puzzleWidth, puzzleHeight;
+        [Tooltip("Width in pipes ")]
+        public int puzzleWidth;
+        [Tooltip("Height in pipes")]
+        public int puzzleHeight;
+
+        public Pipe Straight, Bend, Empty;
 
         protected override void Start()
         {
+            GeneratePuzzelField();
             StartMainThreadUpdate();
             StartSecondThreadUpdate();
 
-            pipes = new Pipe[puzzleWidth, puzzleHeight];
+            
             pathFindingPoints = new List<Vector2>();
             PipesInPath = new List<Pipe>();
             
+        }
+
+        public void GeneratePuzzelField()
+        {
+            float pipeHeight = 0, pipeWidth = 0;
+            int x, y;
+            GameObject G;
+            Pipe p;
+            RectTransform t;
+
+            //buffering width and height so i don't have to get it every itteration of the loop
+            t = (RectTransform)Empty.transform;
+            pipeHeight = t.rect.height+1;
+            pipeWidth = t.rect.width +1;
+
+            //making a clean array where the puzzle bits will be stored
+            pipes = new Pipe[puzzleWidth, puzzleHeight];
+
+            //Creating the puzzle field
+            for (y = 0; y < puzzleHeight; y++)
+            {
+                for (x = 0; x < puzzleWidth; x++)
+                {
+                    G = Instantiate(Empty.gameObject);
+                    G.name = "Empty-Pipe";
+
+                    p = G.GetComponent<Pipe>();
+
+                    pipes[x, y] = p;
+
+                    t = (RectTransform)G.transform;
+
+                    t.SetParent(transform, false);
+                    t.anchorMax = new Vector2(0, 0);
+                    t.anchorMin = new Vector2(0, 0);
+
+                    t.pivot = new Vector2(0, 0);
+
+                    t.anchoredPosition = new Vector2(x * pipeWidth, y * pipeHeight);
+
+                }
+            }
+
         }
 
         public override void MainUpdate()

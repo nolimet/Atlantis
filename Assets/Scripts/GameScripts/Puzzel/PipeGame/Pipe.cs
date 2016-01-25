@@ -20,15 +20,14 @@ namespace minigame.PipePuzzel
 
         public void OnClick()
         {
-            if (onPipeGridChanged != null)
-                onPipeGridChanged();
-
-            if(emptyPipe)
+            if (emptyPipe)
             {
                 //todo add handler for empty pipe points
                 return;
             }
 
+            if (onPipeGridChanged != null)
+                onPipeGridChanged();
 
             switch (pipeData.rotation)
             {
