@@ -55,6 +55,8 @@ public class ScriptManager : MonoBehaviour
     private volatile static bool isPlaying = true;
     public static System.TimeSpan PausedTime;
 
+    System.DateTime SecondaryThreadTime;
+
     #region Static Functions
     /// <summary>
     /// register a script to run it's main update loop code
@@ -139,6 +141,11 @@ public class ScriptManager : MonoBehaviour
     /// </summary>
     void Update()
     {
+        if (Input.GetKeyDown(KeyCode.P))
+            util.ValueDebugger.showDebugger = !util.ValueDebugger.showDebugger;
+
+        util.Debugger.Log("", "", SkipLogging: true);
+
         if (!gamePaused)
         {
             l = MainThreadScripts.Count;
@@ -167,11 +174,14 @@ public class ScriptManager : MonoBehaviour
         {
             if (!gamePaused)
             {
+                SecondaryThreadTime = System.DateTime.Now;
                 try
                 {
                     k = SecondThreadScripts.Count;
                     for (j = 0; j < k; j++)
                     {
+                        if (k != SecondThreadScripts.Count)
+                            break;
                         //if (SecondThreadScripts[j].enabled)
                             SecondThreadScripts[j].SecondaryThreadUpdate();
                     }
@@ -180,7 +190,7 @@ public class ScriptManager : MonoBehaviour
                 {
                     Debug.LogException(e);
                 }
-
+                util.Debugger.Log("Secondary Thread Time", (System.DateTime.Now - SecondaryThreadTime).TotalMilliseconds, true);
                 Thread.Sleep(1);
             }
             else
