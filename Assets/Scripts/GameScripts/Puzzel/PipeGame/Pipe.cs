@@ -10,12 +10,16 @@ namespace minigame.PipePuzzel
 
         public event ValueClasses.VoidDelegate onPipeGridChanged;
 
+        RectTransform rectTransform;
+
         public bool emptyPipe = true;
 
         protected override void Start()
         {
             base.Start();
             pipeData.rotation = PipeRotation.up;
+
+            rectTransform = (RectTransform)transform;
         }
 
         public void OnClick()
@@ -47,9 +51,16 @@ namespace minigame.PipePuzzel
                     pipeData.rotation = PipeRotation.up;
                     break;
             }
+
+            Rotate();
         }
 
         public override void MainUpdate()
+        {
+            
+        }
+
+        void Rotate()
         {
             switch (pipeData.rotation)
             {
@@ -70,12 +81,13 @@ namespace minigame.PipePuzzel
                     break;
             }
         }
-
     }
 
     [System.Serializable]
     struct pipeStruct
     {
+        public bool StartPoint, EndPoint;
+
         public bool up { get { return _setUp; } }
         public bool down { get { return _setDown; } }
         public bool left { get { return _setLeft; } }

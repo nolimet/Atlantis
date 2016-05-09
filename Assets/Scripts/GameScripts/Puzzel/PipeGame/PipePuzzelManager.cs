@@ -7,6 +7,27 @@ namespace minigame.PipePuzzel
     public class PipePuzzelManager : BaseBehaviour
     {
         /// <summary>
+        /// instance of class
+        /// </summary>
+        public static PipePuzzelManager Instance
+        {
+            get
+            {
+                return instace;
+            }
+        }
+
+        static PipePuzzelManager instace;
+
+        public static void SetPoint(int x, int y, Pipe pipe)
+        {
+            if (x < instace.pipes.GetLength(0) && y < instace.pipes.GetLength(1)) 
+            {
+                instace.pipes[x, y] = pipe;
+            }
+        }
+
+        /// <summary>
         /// contains all the pipe locations used in the puzzle;
         /// Array is formatted x,y;
         /// </summary>
@@ -30,7 +51,15 @@ namespace minigame.PipePuzzel
         [Tooltip("Height in pipes")]
         public int puzzleHeight;
 
+        public float pipeHeight = 50;
+        public float pipeWidth = 50;
+
         public Pipe Straight, Bend, Empty;
+
+        void Awake()
+        {
+            instace = this;
+        }
 
         protected override void Start()
         {
@@ -46,16 +75,17 @@ namespace minigame.PipePuzzel
 
         public void GeneratePuzzelField()
         {
-            float pipeHeight = 0, pipeWidth = 0;
+            float pipeHeight = 50, pipeWidth = 50;
             int x, y;
             GameObject G;
             Pipe p;
             RectTransform t;
 
             //buffering width and height so i don't have to get it every itteration of the loop
-            t = (RectTransform)Empty.transform;
-            pipeHeight = t.rect.height+1;
-            pipeWidth = t.rect.width +1;
+
+                t = (RectTransform)Empty.transform;
+                pipeHeight = t.rect.height + 1;
+                pipeWidth = t.rect.width + 1;
 
             //making a clean array where the puzzle bits will be stored
             pipes = new Pipe[puzzleWidth, puzzleHeight];
@@ -78,9 +108,11 @@ namespace minigame.PipePuzzel
                     t.anchorMax = new Vector2(0, 0);
                     t.anchorMin = new Vector2(0, 0);
 
-                    t.pivot = new Vector2(0, 0);
+                    t.pivot = Vector2.one / 2f;
 
-                    t.anchoredPosition = new Vector2(x * pipeWidth, y * pipeHeight);
+                    t.anchoredPosition = new Vector2((pipeWidth/2f)+(x * pipeWidth), (pipeHeight / 2f) + (y * pipeHeight));
+
+                    t.sizeDelta = new Vector2(pipeWidth, pipeHeight);
 
                 }
             }
