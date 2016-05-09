@@ -383,21 +383,11 @@ MonoBehaviour:
   m_GameObject: {fileID: 452000089}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: a3e3c31b8e37afa4ca2f12cb0cecd166, type: 3}
+  m_Script: {fileID: 11500000, guid: e59aa43bc9ae6b949ba13c2d91ad0cd8, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  pipeData:
-    StartPoint: 0
-    EndPoint: 0
-    _up: 0
-    _right: 0
-    _down: 1
-    _left: 1
-    _setUp: 0
-    _setRight: 0
-    _setDown: 0
-    _setLeft: 0
-  emptyPipe: 0
+  PrefabPipe: {fileID: 341140976}
+  parentForPrefabs: {fileID: 928692875}
 --- !u!114 &452000092
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -675,10 +665,9 @@ GameObject:
   - 224: {fileID: 790982579}
   - 222: {fileID: 790982583}
   - 114: {fileID: 790982582}
-  - 114: {fileID: 790982581}
   - 114: {fileID: 790982580}
   m_Layer: 5
-  m_Name: Empty
+  m_Name: pipeSlot
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -709,73 +698,9 @@ MonoBehaviour:
   m_GameObject: {fileID: 790982578}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: a3e3c31b8e37afa4ca2f12cb0cecd166, type: 3}
+  m_Script: {fileID: 11500000, guid: f7724e0145a1416499f9bcab3d25f293, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  pipeData:
-    StartPoint: 0
-    EndPoint: 0
-    _up: 0
-    _right: 0
-    _down: 0
-    _left: 0
-    _setUp: 0
-    _setRight: 0
-    _setDown: 0
-    _setLeft: 0
-  emptyPipe: 1
---- !u!114 &790982581
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 0}
-  m_GameObject: {fileID: 790982578}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 1392445389, guid: f5f67c52d1564df4a8936ccd202a3bd8, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  m_Navigation:
-    m_Mode: 3
-    m_SelectOnUp: {fileID: 0}
-    m_SelectOnDown: {fileID: 0}
-    m_SelectOnLeft: {fileID: 0}
-    m_SelectOnRight: {fileID: 0}
-  m_Transition: 1
-  m_Colors:
-    m_NormalColor: {r: 1, g: 1, b: 1, a: 1}
-    m_HighlightedColor: {r: 0.9607843, g: 0.9607843, b: 0.9607843, a: 1}
-    m_PressedColor: {r: 0.78431374, g: 0.78431374, b: 0.78431374, a: 1}
-    m_DisabledColor: {r: 0.78431374, g: 0.78431374, b: 0.78431374, a: 0.5019608}
-    m_ColorMultiplier: 1
-    m_FadeDuration: 0.1
-  m_SpriteState:
-    m_HighlightedSprite: {fileID: 0}
-    m_PressedSprite: {fileID: 0}
-    m_DisabledSprite: {fileID: 0}
-  m_AnimationTriggers:
-    m_NormalTrigger: Normal
-    m_HighlightedTrigger: Highlighted
-    m_PressedTrigger: Pressed
-    m_DisabledTrigger: Disabled
-  m_Interactable: 1
-  m_TargetGraphic: {fileID: 790982582}
-  m_OnClick:
-    m_PersistentCalls:
-      m_Calls:
-      - m_Target: {fileID: 790982580}
-        m_MethodName: OnClick
-        m_Mode: 1
-        m_Arguments:
-          m_ObjectArgument: {fileID: 0}
-          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
-          m_IntArgument: 0
-          m_FloatArgument: 0
-          m_StringArgument: 
-          m_BoolArgument: 0
-        m_CallState: 2
-    m_TypeName: UnityEngine.UI.Button+ButtonClickedEvent, UnityEngine.UI, Version=1.0.0.0,
-      Culture=neutral, PublicKeyToken=null
 --- !u!114 &790982582
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -858,12 +783,14 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   StartPoint: {fileID: 0}
-  EndPoint: {fileID: 790982580}
+  EndPoint: {fileID: 0}
   puzzleWidth: 10
   puzzleHeight: 10
+  pipeHeight: 50
+  pipeWidth: 50
   Straight: {fileID: 1379438335}
   Bend: {fileID: 341140976}
-  Empty: {fileID: 790982580}
+  pipeSlot: {fileID: 790982580}
 --- !u!1 &1379438333
 GameObject:
   m_ObjectHideFlags: 0
@@ -1071,13 +998,14 @@ Canvas:
   m_GameObject: {fileID: 1504248012}
   m_Enabled: 1
   serializedVersion: 2
-  m_RenderMode: 1
+  m_RenderMode: 0
   m_Camera: {fileID: 615447922}
   m_PlaneDistance: 100
   m_PixelPerfect: 0
   m_ReceivesEvents: 1
   m_OverrideSorting: 0
   m_OverridePixelPerfect: 0
+  m_SortingBucketNormalizedSize: 0
   m_SortingLayerID: 0
   m_SortingOrder: 0
   m_TargetDisplay: 0
@@ -1414,21 +1342,11 @@ MonoBehaviour:
   m_GameObject: {fileID: 1811736936}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: a3e3c31b8e37afa4ca2f12cb0cecd166, type: 3}
+  m_Script: {fileID: 11500000, guid: e59aa43bc9ae6b949ba13c2d91ad0cd8, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  pipeData:
-    StartPoint: 0
-    EndPoint: 0
-    _up: 1
-    _right: 0
-    _down: 1
-    _left: 0
-    _setUp: 0
-    _setRight: 0
-    _setDown: 0
-    _setLeft: 0
-  emptyPipe: 0
+  PrefabPipe: {fileID: 1379438335}
+  parentForPrefabs: {fileID: 928692875}
 --- !u!114 &1811736939
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1653,7 +1571,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!224 &2029457607
 RectTransform:
   m_ObjectHideFlags: 0
@@ -1679,21 +1597,11 @@ MonoBehaviour:
   m_GameObject: {fileID: 2029457606}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: a3e3c31b8e37afa4ca2f12cb0cecd166, type: 3}
+  m_Script: {fileID: 11500000, guid: e59aa43bc9ae6b949ba13c2d91ad0cd8, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  pipeData:
-    StartPoint: 0
-    EndPoint: 0
-    _up: 0
-    _right: 0
-    _down: 0
-    _left: 0
-    _setUp: 0
-    _setRight: 0
-    _setDown: 0
-    _setLeft: 0
-  emptyPipe: 1
+  PrefabPipe: {fileID: 0}
+  parentForPrefabs: {fileID: 928692875}
 --- !u!114 &2029457609
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1733,7 +1641,7 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 2029457608}
+      - m_Target: {fileID: 0}
         m_MethodName: OnClick
         m_Mode: 1
         m_Arguments:

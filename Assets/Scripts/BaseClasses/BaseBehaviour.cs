@@ -42,7 +42,7 @@ public class BaseBehaviour : MonoBehaviour
         startedSecondThread = true;
     }
 
-    protected void OnDestroy()
+    virtual protected void OnDestroy()
     {
         if (!Application.isPlaying)
             return;

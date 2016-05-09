@@ -19,19 +19,11 @@ namespace minigame.PipePuzzel
 
         static PipePuzzelManager instace;
 
-        public static void SetPoint(int x, int y, Pipe pipe)
-        {
-            if (x < instace.pipes.GetLength(0) && y < instace.pipes.GetLength(1)) 
-            {
-                instace.pipes[x, y] = pipe;
-            }
-        }
-
         /// <summary>
         /// contains all the pipe locations used in the puzzle;
         /// Array is formatted x,y;
         /// </summary>
-        Pipe[,] pipes;
+        PipeSlot[,] pipes;
 
         /// <summary>
         /// Start point of the pipe System
@@ -54,8 +46,8 @@ namespace minigame.PipePuzzel
         public float pipeHeight = 50;
         public float pipeWidth = 50;
 
-        public Pipe Straight, Bend, Empty;
-
+        public Pipe Straight, Bend;
+        public PipeSlot pipeSlot;
         void Awake()
         {
             instace = this;
@@ -78,28 +70,28 @@ namespace minigame.PipePuzzel
             float pipeHeight = 50, pipeWidth = 50;
             int x, y;
             GameObject G;
-            Pipe p;
+            PipeSlot p;
             RectTransform t;
 
             //buffering width and height so i don't have to get it every itteration of the loop
 
-                t = (RectTransform)Empty.transform;
+                t = (RectTransform)pipeSlot.transform;
                 pipeHeight = t.rect.height + 1;
                 pipeWidth = t.rect.width + 1;
 
             //making a clean array where the puzzle bits will be stored
-            pipes = new Pipe[puzzleWidth, puzzleHeight];
+            pipes = new PipeSlot[puzzleWidth, puzzleHeight];
 
             //Creating the puzzle field
             for (y = 0; y < puzzleHeight; y++)
             {
                 for (x = 0; x < puzzleWidth; x++)
                 {
-                    G = Instantiate(Empty.gameObject);
-                    G.name = "Empty-Pipe";
+                    G = Instantiate(pipeSlot.gameObject);
+                    G.name = "Pipe-Slot";
 
-                    p = G.GetComponent<Pipe>();
-
+                    p = G.GetComponent<PipeSlot>();
+                   
                     pipes[x, y] = p;
 
                     t = (RectTransform)G.transform;

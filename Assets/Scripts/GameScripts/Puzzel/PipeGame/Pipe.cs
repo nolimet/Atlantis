@@ -1,10 +1,20 @@
 ﻿using UnityEngine;
 using System.Collections;
+using System;
 
 namespace minigame.PipePuzzel
 {
-    public class Pipe : BaseBehaviour
+    public class Pipe : BaseBehaviour, UnityEngine.EventSystems.IHasChanged
+    
     {
+        public pipeStruct PipeData
+        {
+            get
+            {
+                return PipeData;
+            }
+        }
+
         [SerializeField]
         pipeStruct pipeData;
 
@@ -81,10 +91,18 @@ namespace minigame.PipePuzzel
                     break;
             }
         }
+
+        public void onHasChanged()
+        {
+            if(!transform.parent.GetComponent<PipeSlot>())
+            {
+                Destroy(this);
+            }
+        }
     }
 
     [System.Serializable]
-    struct pipeStruct
+    public struct pipeStruct
     {
         public bool StartPoint, EndPoint;
 
@@ -141,7 +159,7 @@ namespace minigame.PipePuzzel
     }
 
 
-    enum PipeRotation
+    public enum PipeRotation
     {
         up = 0,
         left = 1,
