@@ -7,6 +7,7 @@ namespace minigame.PipePuzzel
 {
     public class DragPipe : util.dragDropSystem.ItemDrag
     {
+        [SerializeField]
         Transform lastItemSlotEntered;
 
         public override void OnEndDrag(PointerEventData eventData)
@@ -14,9 +15,13 @@ namespace minigame.PipePuzzel
             
             base.OnEndDrag(eventData);
 
-            if (!transform.parent.gameObject.GetComponent<PipeSlot>() && lastItemSlotEntered)
+            if (!transform.parent.gameObject.GetComponent<PipeSlot>() && !lastItemSlotEntered)
             {
-                Destroy(this);
+                Destroy(this.gameObject);
+            }
+            if (transform.parent.gameObject.GetComponent<PipeSlot>())
+            {
+                lastItemSlotEntered = transform.parent;
             }
 
             gameObject.GetComponent<Button>().enabled = true;

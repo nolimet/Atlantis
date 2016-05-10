@@ -20,6 +20,8 @@ namespace util.dragDropSystem
                 g.transform.SetParent(FindObjectOfType<Canvas>().gameObject.transform, false);
                 MoveContainer = g.transform;
             }
+
+            MoveContainer.name = "DragDropMoveContainer";
         }
 
         public static Transform MoveContainer;
